@@ -78,7 +78,7 @@ if __name__=='__main__':
     parser.add_argument('-w', '--wait',
                         help='wait in seconds before turning camera off after motion',
                         type=float,
-                        default=4.0)
+                        default=0.5)
 
     args = parser.parse_args()
 
