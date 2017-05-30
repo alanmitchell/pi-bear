@@ -16,6 +16,9 @@ class Camera:
         self.is_on = False
 
     def camera_start(self):
+        # need to store in a temporary image file because file is constantly
+        # changing while recording is occurring, and don't want to have a
+        # partial file in the final media directory.
         self.camera.start_recording(self.tmp_img_file)
         self.is_on = True
         print 'Camera On'
