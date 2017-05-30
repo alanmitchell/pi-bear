@@ -12,19 +12,20 @@ class Camera:
     def __init__(self, file_dir):
         self.file_dir = file_dir
         self.tmp_img_file = os.path.join(os.path.dirname(__file__), 'tmp.h264')
-        self.camera = picamera.PiCamera()
         self.is_on = False
 
     def camera_start(self):
         # need to store in a temporary image file because file is constantly
         # changing while recording is occurring, and don't want to have a
         # partial file in the final media directory.
+        self.camera = picamera.PiCamera()
         self.camera.start_recording(self.tmp_img_file)
         self.is_on = True
         print 'Camera On'
 
     def camera_stop(self):
         self.camera.stop_recording()
+        self.close()
         self.is_on = False
         print 'Camera Off'
         fname = os.path.join(self.file_dir,
