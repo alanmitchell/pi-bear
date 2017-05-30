@@ -3,6 +3,7 @@
 import time
 from datetime import datetime
 import os
+import shutil
 import picamera
 import RPi.GPIO as GPIO
 
@@ -10,13 +11,12 @@ class Camera:
 
     def __init__(self, file_dir):
         self.file_dir = file_dir
+        self.tmp_img_file = os.path.join(os.path.dirname(__file__), 'tmp.h264')
         self.camera = picamera.PiCamera()
         self.is_on = False
 
     def camera_start(self):
-        fname = os.path.join(self.file_dir,
-            datetime.now().strftime('%Y-%m-%d-%H%M%S') + '.h264')
-        self.camera.start_recording(fname)
+        self.camera.start_recording(self.tmp_img_file)
         self.is_on = True
         print 'Camera On'
 
@@ -24,6 +24,9 @@ class Camera:
         self.camera.stop_recording()
         self.is_on = False
         print 'Camera Off'
+        fname = os.path.join(self.file_dir,
+                             datetime.now().strftime('%Y-%m-%d-%H%M%S') + '.h264')
+        shutil.copy(self.tmp_img_file, fname)
 
     def close(self):
         self.camera.close()
