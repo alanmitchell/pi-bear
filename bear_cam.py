@@ -25,6 +25,9 @@ class Camera:
         self.is_on = False
         print 'Camera Off'
 
+    def close(self):
+        self.camera.close()
+
 
 class MotionSensor:
 
