@@ -65,19 +65,26 @@ class MotionSensor:
 
 if __name__=='__main__':
 
-    # Amount of time to wait after last motion detection
-    # before shutting off camera.
-    WAIT_FOR_OFF = 4  # seconds
+    import argparse
+
+    parser = argparse.ArgumentParser(description='Bear Camera')
+    parser.add_argument('media_dir', help='directory where video/image files will be stored')
+    parser.add_argument('-w', '--wait',
+                        help='wait in seconds before turning camera off after motion',
+                        type=float,
+                        default=4.0)
+
+    args = parser.parse_args()
 
     try:
 
-        cam = Camera('~/media')
+        cam = Camera(args.media_dir)
         motion = MotionSensor([22, 23])
 
         while True:
             motion.read()
             if cam.is_on:
-                if motion.time_since_last_motion() > WAIT_FOR_OFF:
+                if motion.time_since_last_motion() > args.wait:
                     cam.camera_stop()
 
             else:
