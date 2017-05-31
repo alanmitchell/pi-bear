@@ -80,13 +80,20 @@ if __name__=='__main__':
                         help='wait in seconds before turning camera off after motion',
                         type=float,
                         default=0.5)
+    parser.add_argument('-o', '--one_sensor',
+                        help='pin number of the one motion sensor to use',
+                        type=int,
+                        default=0)
 
     args = parser.parse_args()
 
     try:
 
         cam = Camera(args.media_dir)
-        motion = MotionSensor([22, 23])
+        if args.one_sensor:
+            motion = MotionSensor([args.one_sensor])
+        else:
+            motion = MotionSensor([22, 23])
 
         while True:
             motion.read()
