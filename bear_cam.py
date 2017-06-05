@@ -18,7 +18,8 @@ class Camera:
         # need to store in a temporary image file because file is constantly
         # changing while recording is occurring, and don't want to have a
         # partial file in the final media directory.
-        self.camera = picamera.PiCamera()
+        self.camera = picamera.PiCamera(framerate=15)
+        self.camera.iso = 800
         self.camera.start_recording(self.tmp_img_file)
         self.is_on = True
         print 'Camera On'
